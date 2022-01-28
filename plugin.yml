@@ -1,0 +1,10 @@
+---
+name: AntiFallDamage
+version: 1.0.0
+main: NhanAZ\AntiFallDamage\Main
+api: 4.0.0
+src-namespace-prefix: NhanAZ\AntiFallDamage
+author: NhanAZ
+website: https://github.com/NhanAZ
+description: Prevent fall damage
+...
