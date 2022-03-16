@@ -4,23 +4,50 @@ declare(strict_types=1);
 
 namespace NhanAZ\AntiFallDamage;
 
+use pocketmine\player\Player;
 use pocketmine\event\Listener;
 use pocketmine\plugin\PluginBase;
 use pocketmine\event\entity\EntityDamageEvent;
 
-class Main extends PluginBase implements Listener
-{
-	protected function onEnable(): void
-	{
+class Main extends PluginBase implements Listener {
+
+	protected function onEnable(): void {
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
+		$this->saveDefaultConfig();
 	}
 
-	public function onEntityDamage(EntityDamageEvent $event)
-	{
-		$getCause = $event->getCause();
-		$causeFall = EntityDamageEvent::CAUSE_FALL;
-		if ($getCause === $causeFall) {
-			$event->cancel();
+	public function onEntityDamage(EntityDamageEvent $event) {
+		$cause = $event->getCause();
+		$entity = $event->getEntity();
+		$worldName = $entity->getWorld()->getDisplayName();
+		$worlds = $this->getConfig()->get("Worlds", []);
+		switch ($this->getConfig()->get("Mode", "all")) {
+			// TODO: Clean =))
+			case "all":
+				if ($cause === EntityDamageEvent::CAUSE_FALL) {
+					if ($entity instanceof Player) {
+						$event->cancel();
+					}
+				}
+				break;
+			case "whitelist":
+				if (in_array($worldName, $worlds)) {
+					if ($cause === EntityDamageEvent::CAUSE_FALL) {
+						if ($entity instanceof Player) {
+							$event->cancel();
+						}
+					}
+				}
+				break;
+			case "blacklist":
+				if (!in_array($worldName, $worlds)) {
+					if ($cause === EntityDamageEvent::CAUSE_FALL) {
+						if ($entity instanceof Player) {
+							$event->cancel();
+						}
+					}
+				}
+				break;
 		}
 	}
 }

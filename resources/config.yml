@@ -1,0 +1,8 @@
+---
+# all : Prevent fall damage in all worlds
+# whitelist : Prevent fall damage in worlds listed below
+# blacklist : Prevent fall damage in all worlds that are not listed below
+Mode: all
+Worlds: []
+# Worlds: ["world1", "world2"]
+...
