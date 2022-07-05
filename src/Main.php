@@ -16,36 +16,32 @@ class Main extends PluginBase implements Listener {
 		$this->saveDefaultConfig();
 	}
 
-	public function onEntityDamage(EntityDamageEvent $event) {
+	private function cancelCauseFallDamage(EntityDamageEvent $event): void {
 		$cause = $event->getCause();
+		$entity = $event->getEntity();
+		if ($cause === EntityDamageEvent::CAUSE_FALL) {
+			if ($entity instanceof Player) {
+				$event->cancel();
+			}
+		}
+	}
+
+	public function onEntityDamage(EntityDamageEvent $event) {
 		$entity = $event->getEntity();
 		$worldName = $entity->getWorld()->getDisplayName();
 		$worlds = $this->getConfig()->get("Worlds", []);
 		switch ($this->getConfig()->get("Mode", "all")) {
-			// TODO: Clean =))
 			case "all":
-				if ($cause === EntityDamageEvent::CAUSE_FALL) {
-					if ($entity instanceof Player) {
-						$event->cancel();
-					}
-				}
+				$this->cancelCauseFallDamage($event);
 				break;
 			case "whitelist":
 				if (in_array($worldName, $worlds)) {
-					if ($cause === EntityDamageEvent::CAUSE_FALL) {
-						if ($entity instanceof Player) {
-							$event->cancel();
-						}
-					}
+					$this->cancelCauseFallDamage($event);
 				}
 				break;
 			case "blacklist":
 				if (!in_array($worldName, $worlds)) {
-					if ($cause === EntityDamageEvent::CAUSE_FALL) {
-						if ($entity instanceof Player) {
-							$event->cancel();
-						}
-					}
+					$this->cancelCauseFallDamage($event);
 				}
 				break;
 		}
