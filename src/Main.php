@@ -7,6 +7,7 @@ namespace NhanAZ\AntiFallDamage;
 use pocketmine\player\Player;
 use pocketmine\event\Listener;
 use pocketmine\plugin\PluginBase;
+use pocketmine\permission\DefaultPermissions;
 use pocketmine\event\entity\EntityDamageEvent;
 
 class Main extends PluginBase implements Listener {
@@ -21,7 +22,13 @@ class Main extends PluginBase implements Listener {
 		$entity = $event->getEntity();
 		if ($cause === EntityDamageEvent::CAUSE_FALL) {
 			if ($entity instanceof Player) {
-				$event->cancel();
+				if ($this->getConfig()->get("permissions", false)) {
+					if ($entity->hasPermission("antifalldamage.use") || $entity->hasPermission(DefaultPermissions::ROOT_OPERATOR)) {
+						$event->cancel();
+					}
+				} else {
+					$event->cancel();
+				}
 			}
 		}
 	}

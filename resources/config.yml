@@ -5,4 +5,8 @@
 Mode: all
 Worlds: []
 # Worlds: ["world1", "world2"]
+
+# If true, fall damage will not affect players with antifalldamage.use permissions
+# If false, fall damage will not affect all players
+permissions: false
 ...

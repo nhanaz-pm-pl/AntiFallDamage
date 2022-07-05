@@ -7,4 +7,9 @@ src-namespace-prefix: NhanAZ\AntiFallDamage
 author: NhanAZ
 website: https://github.com/NhanAZ
 description: Prevent fall damage
+
+permissions:
+  antifalldamage.use:
+    description: Allows players to be unaffected by falling damage
+    default: op
 ...
