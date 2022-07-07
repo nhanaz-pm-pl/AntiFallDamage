@@ -1,8 +1,8 @@
 ---
 name: AntiFallDamage
-version: 2.0.1
+version: 2.0.2+dev
 main: NhanAZ\AntiFallDamage\Main
-api: 4.0.0
+api: 5.0.0
 src-namespace-prefix: NhanAZ\AntiFallDamage
 author: NhanAZ
 website: https://github.com/NhanAZ
